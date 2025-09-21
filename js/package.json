@@ -1,0 +1,19 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aztec/bb.js": "^2.0.3",
+    "@zk-kit/incremental-merkle-tree": "^1.1.0",
+    "@zkpassport/poseidon2": "^0.6.2",
+    "circomlibjs": "^0.1.7",
+    "crypto": "^1.0.1",
+    "toml": "^3.0.0"
+  }
+}
