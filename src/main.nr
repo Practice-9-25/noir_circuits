@@ -25,7 +25,7 @@ fn main(
     public_nullifier: pub Field,
     public_recipient: pub Field,
     // Private inputs (witness values)
-    note_amount: Field,
+    note_amount: Field, 
     note_owner_pubkey: Field,
     note_owner_privkey: Field,
     note_nonce: Field,
