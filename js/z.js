@@ -24,6 +24,7 @@ async function main() {
   // owner pubkey (Poseidon2 with arity=1)
   const note_owner_pubkey = poseidon2Hash([note_owner_privkey]);
 
+  console.log("test poseidon hash", poseidon2Hash([1n, 2n]).toString());
   const tree = new IncrementalMerkleTree(poseidonHash, TREE_DEPTH, ZERO, 2);
 
   const leaf_index = 5;
@@ -47,12 +48,11 @@ async function main() {
     ...Array(TREE_DEPTH_MAX - proof.siblings.length).fill("0"),
   ];
   const indicesPadded = [
-    ...proof.pathIndices.map((b) => (b ? true : false)),
-    ...Array(TREE_DEPTH_MAX - proof.pathIndices.length).fill(false),
+    ...proof.pathIndices.map((b) => (b ? "1" : "0")),
+    ...Array(TREE_DEPTH_MAX - proof.pathIndices.length).fill("0"),
   ];
 
   const tomlObj = {
-    leaf_index: leaf_index.toString(),
     actual_tree_depth: TREE_DEPTH.toString(),
     merkle_path: siblingsPadded,
     merkle_path_indices: indicesPadded,
@@ -70,7 +70,7 @@ async function main() {
     if (Array.isArray(v)) {
       if (typeof v[0] === "boolean") {
         tomlText += `${k} = [${v
-          .map((x) => (x ? "true" : "false"))
+          .map((x) => (x ? "1" : "0"))
           .join(", ")}]\n`;
       } else {
         tomlText += `${k} = [${v.map((x) => `"${x}"`).join(", ")}]\n`;

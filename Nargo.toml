@@ -1,5 +1,5 @@
 [package]
-name = "zkether2"
+name = "noir_multiplier2"
 type = "bin"
 authors = [""]
 

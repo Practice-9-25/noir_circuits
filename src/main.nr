@@ -4,12 +4,12 @@ global TREE_DEPTH_MAX: u32 = 16;
 fn recompute_root(
     mut current: Field,
     siblings: [Field; TREE_DEPTH_MAX],
-    indices: [bool; TREE_DEPTH_MAX],
+    indices: [Field; TREE_DEPTH_MAX],
     actual_depth: Field,
 ) -> Field {
     for i in 0..TREE_DEPTH_MAX {
         if i < actual_depth as u32 {
-            if indices[i] {
+            if indices[i] == 1 {
                 current = Poseidon2::hash([siblings[i], current], 2);
             } else {
                 current = Poseidon2::hash([current, siblings[i]], 2);
@@ -30,8 +30,7 @@ fn main(
     note_owner_privkey: Field,
     note_nonce: Field,
     merkle_path: [Field; TREE_DEPTH_MAX],
-    merkle_path_indices: [bool; TREE_DEPTH_MAX],
-    leaf_index: Field,
+    merkle_path_indices: [Field; TREE_DEPTH_MAX],
     actual_tree_depth: Field,
 ) {
     let computed_commitment = Poseidon2::hash([note_amount, note_owner_pubkey, note_nonce], 3);
@@ -44,8 +43,9 @@ fn main(
 
     assert(derived_pub == note_owner_pubkey, "Invalid pubkey-privkey pair");
 
+
     // let recomputed_root = compute_merkle_root(computed_commitment, leaf_index, merkle_path);
-    let recomputed_root = recompute_root(
+    let recomputed_root: Field = recompute_root(
         computed_commitment,
         merkle_path,
         merkle_path_indices,
