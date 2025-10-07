@@ -24,8 +24,11 @@ fn main(
     public_merkle_root: pub Field,
     public_nullifier: pub Field,
     public_recipient: pub Field,
+    public_commitment: pub Field,
     // Private inputs (witness values)
-    note_amount: Field, 
+    private_nullifier: Field,
+    private_secret: Field,
+    note_amount: Field,
     note_owner_pubkey: Field,
     note_owner_privkey: Field,
     note_nonce: Field,
@@ -33,6 +36,9 @@ fn main(
     merkle_path_indices: [Field; TREE_DEPTH_MAX],
     actual_tree_depth: Field,
 ) {
+    let recomputed_commitment_from_x25519_shared = Poseidon2::hash([private_secret, private_nullifier], 2);
+    assert(public_commitment == recomputed_commitment_from_x25519_shared, "Commitment mismatch");
+    
     let computed_commitment = Poseidon2::hash([note_amount, note_owner_pubkey, note_nonce], 3);
 
     let computed_nullifier = Poseidon2::hash([note_owner_privkey, note_nonce], 2);
@@ -42,7 +48,6 @@ fn main(
     let derived_pub = Poseidon2::hash([note_owner_privkey], 1);
 
     assert(derived_pub == note_owner_pubkey, "Invalid pubkey-privkey pair");
-
 
     // let recomputed_root = compute_merkle_root(computed_commitment, leaf_index, merkle_path);
     let recomputed_root: Field = recompute_root(
