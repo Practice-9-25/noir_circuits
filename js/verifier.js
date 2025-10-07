@@ -7,7 +7,7 @@ const outPath = path.resolve("../target/Verifier.sol");
 
 async function generateVerifier() {
   await writeSolidityVerifier(vkPath, outPath);
-  console.log("✅ Verifier.sol generated at", outPath);
+  console.log(" Verifier.sol generated at", outPath);
 }
 
 generateVerifier();
